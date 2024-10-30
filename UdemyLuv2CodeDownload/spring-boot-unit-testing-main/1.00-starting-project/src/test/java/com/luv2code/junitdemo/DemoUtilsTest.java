@@ -1,5 +1,6 @@
 package com.luv2code.junitdemo;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,19 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class DemoUtilsTest {
     // Logger
-    Logger logger = Logger.getLogger(DemoUtilsTest.class.getName());
+    private static final Logger logger = Logger.getLogger(DemoUtilsTest.class.getName());
 
     // Global DemoUtils obj
-    private DemoUtils demoUtils;
+    private static DemoUtils demoUtils;
 
     /**
      * Setup before each method
      */
-    @BeforeEach
-    public void beforeEach() {
+    @BeforeAll
+    public static void beforeAll() {
         try {
             demoUtils = new DemoUtils();
-            logger.log(Level.INFO, "@BeforeEach executed before each execution test");
         } catch (Exception error) {
             logger.log(Level.SEVERE, "Exception launched " + error);
         }
