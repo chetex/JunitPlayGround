@@ -1,8 +1,6 @@
 package com.luv2code.junitdemo;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * This class will be used as JUnit testing class demo purpose
  */
+@DisplayNameGeneration(DisplayNameGenerator.Simple.class)
 public class DemoUtilsTest {
     // Logger
     private static final Logger logger = Logger.getLogger(DemoUtilsTest.class.getName());
@@ -26,6 +25,20 @@ public class DemoUtilsTest {
     public static void beforeAll() {
         try {
             demoUtils = new DemoUtils();
+
+            logger.log(Level.INFO, "Esto se ejecuta SOLO UNA VEZ de cada metodo");
+        } catch (Exception error) {
+            logger.log(Level.SEVERE, "Exception launched " + error);
+        }
+    }
+
+    /**
+     * Setup before each method
+     */
+    @BeforeEach
+    public void beforeEach() {
+        try {
+            logger.log(Level.INFO, "Esto se ejecuta antes de cada metodo");
         } catch (Exception error) {
             logger.log(Level.SEVERE, "Exception launched " + error);
         }
@@ -35,6 +48,7 @@ public class DemoUtilsTest {
      * Equals and not equals
      */
     @Test
+    @DisplayName("Test equals and not equals in DemoUtils add method")
     public void testEqualsAndNotEquals () {
         try {
             // Test one method
@@ -71,6 +85,21 @@ public class DemoUtilsTest {
             // Test one method
             assertNull(demoUtils.checkNull(oneNull), "DemoUtils obj IS null");
             assertNotNull(demoUtils.checkNull(second), "String is not null");
+        } catch (Exception error) {
+            logger.log(Level.SEVERE, "Exception launched " + error);
+        }
+    }
+
+    /**
+     * Setup after each method
+     */
+    @AfterAll
+    public static void afterAll() {
+        try {
+            // Remove obj assign
+            demoUtils = null;
+
+            logger.log(Level.INFO, "Esto se ejecuta SOLO UNA VEZ de despues metodo");
         } catch (Exception error) {
             logger.log(Level.SEVERE, "Exception launched " + error);
         }
