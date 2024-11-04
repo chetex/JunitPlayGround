@@ -2,6 +2,10 @@ package com.luv2code.junitdemo;
 
 import org.junit.jupiter.api.*;
 
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,6 +81,55 @@ public class DemoUtilsTest {
             // Testing if response is the same or not
             assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Is the same object");
             assertNotSame(firstNumber, demoUtils.getAcademyInList());
+        } catch (Exception error) {
+            logger.log(Level.SEVERE, "Exception raised" + error);
+        }
+    }
+
+    /**
+     * Test to verify if exception is thrown.
+     */
+    @Test
+    public void testThrowException () {
+        try {
+            // Initialize var and check if it is an exception
+            int a = 1;
+            int b = -9;
+
+            assertThrows(Exception.class, () -> demoUtils.throwException(b));
+            assertDoesNotThrow(() -> demoUtils.throwException(a));
+        } catch (Exception error) {
+            logger.log(Level.SEVERE, "Exception with " + error);
+        }
+    }
+
+    /**
+     * Check if exception is launch after considerable timeout
+     */
+    @Test
+    public void testCheckTimeout() {
+        try {
+            // Launch after considerable timeout
+            Long timeout = 5L;
+
+            assertTimeoutPreemptively(Duration.ofSeconds(3), ()-> { demoUtils.checkTimeout(); } );
+        } catch (Exception error) {
+            logger.log(Level.SEVERE, "Exception raised" + error);
+        }
+    }
+
+    /**
+     * Iterate over iterable lists and check they are the same
+     */
+    @Test
+    public void testIterableListsAreTheSame() {
+        try {
+            // Declare a iterable to ckeck if it is the same
+            List<String> iterableList = List.of("luv", "2", "code");
+
+            // Check with assertion list is the same
+            assertIterableEquals(iterableList, demoUtils.getAcademyInList());
+            assertLinesMatch(iterableList, demoUtils.getAcademyInList());
         } catch (Exception error) {
             logger.log(Level.SEVERE, "Exception raised" + error);
         }
