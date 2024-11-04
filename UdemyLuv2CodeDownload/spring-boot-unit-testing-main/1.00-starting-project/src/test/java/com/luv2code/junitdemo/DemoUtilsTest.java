@@ -3,8 +3,6 @@ package com.luv2code.junitdemo;
 import org.junit.jupiter.api.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -109,10 +107,7 @@ public class DemoUtilsTest {
     @Test
     public void testCheckTimeout() {
         try {
-            // Launch after considerable timeout
-            Long timeout = 5L;
-
-            assertTimeoutPreemptively(Duration.ofSeconds(3), ()-> { demoUtils.checkTimeout(); } );
+            assertTimeoutPreemptively(Duration.ofSeconds(3L), ()-> demoUtils.checkTimeout());
         } catch (Exception error) {
             logger.log(Level.SEVERE, "Exception raised" + error);
         }
