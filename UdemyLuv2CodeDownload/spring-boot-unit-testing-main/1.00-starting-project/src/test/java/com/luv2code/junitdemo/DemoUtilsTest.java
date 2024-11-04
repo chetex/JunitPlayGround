@@ -60,6 +60,29 @@ public class DemoUtilsTest {
     }
 
     /**
+     * Testing true and false options.
+     *  > Given number testing if number is greater or not
+     */
+    @Test
+    @DisplayName("Testing true and false")
+    public void testTrueAndFalse() {
+        try {
+            // Declare two integers and check if both numbers are greater or not
+            int firstNumber = 5;
+            int secondNumber = 6;
+
+            // Testing if number second is greater than first number
+            assertTrue(demoUtils.isGreater(secondNumber, firstNumber));
+
+            // Testing if response is the same or not
+            assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Is the same object");
+            assertNotSame(firstNumber, demoUtils.getAcademyInList());
+        } catch (Exception error) {
+            logger.log(Level.SEVERE, "Exception raised" + error);
+        }
+    }
+
+    /**
      * Test not null
      */
     @Test
