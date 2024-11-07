@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * This class will be used as JUnit testing class demo purpose
  */
 @DisplayNameGeneration(DisplayNameGenerator.Simple.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoUtilsTest {
     // Logger
     private static final Logger logger = Logger.getLogger(DemoUtilsTest.class.getName());
@@ -51,6 +52,7 @@ public class DemoUtilsTest {
      */
     @Test
     @DisplayName("Test equals and not equals in DemoUtils add method")
+    @Order(1)
     public void testEqualsAndNotEquals () {
         try {
             // Test one method
@@ -91,8 +93,8 @@ public class DemoUtilsTest {
     public void testThrowException () {
         try {
             // Initialize var and check if it is an exception
-            int a = 1;
-            int b = -9;
+            int a = 1; // Does not throw an exception
+            int b = -9; // Throw an exception
 
             assertThrows(Exception.class, () -> demoUtils.throwException(b));
             assertDoesNotThrow(() -> demoUtils.throwException(a));
@@ -107,7 +109,8 @@ public class DemoUtilsTest {
     @Test
     public void testCheckTimeout() {
         try {
-            assertTimeoutPreemptively(Duration.ofSeconds(3L), ()-> demoUtils.checkTimeout());
+            assertTimeoutPreemptively(Duration.ofSeconds(3L), ()-> demoUtils.checkTimeout(),
+                    "Only timeout 3 seconds");
         } catch (Exception error) {
             logger.log(Level.SEVERE, "Exception raised" + error);
         }
