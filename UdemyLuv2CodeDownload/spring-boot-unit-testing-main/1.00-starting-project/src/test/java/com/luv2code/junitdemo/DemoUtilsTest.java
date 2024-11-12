@@ -64,6 +64,24 @@ public class DemoUtilsTest {
     }
 
     /**
+     * Multiply two numbers and added to coverage
+     */
+    @Test
+    @DisplayName("Multiply 2 numbers")
+    public void testMultiplyMethod () {
+        try {
+            int number1 = 3;
+            int number2 = 4;
+            int result = 12;
+
+            // Test one method
+            assertEquals(result, demoUtils.multiply(number1, number2), "Multiply 3 * 4 is 12");
+        } catch (Exception error) {
+            logger.log(Level.SEVERE, "Exception launched " + error);
+        }
+    }
+
+    /**
      * Testing true and false options.
      *  > Given number testing if number is greater or not
      */
@@ -77,6 +95,7 @@ public class DemoUtilsTest {
 
             // Testing if number second is greater than first number
             assertTrue(demoUtils.isGreater(secondNumber, firstNumber));
+            assertFalse(demoUtils.isGreater(secondNumber, firstNumber));
 
             // Testing if response is the same or not
             assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Is the same object");
