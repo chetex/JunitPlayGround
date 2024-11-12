@@ -2,9 +2,8 @@ package com.luv2code.fizzbuzzdemo;
 
 import com.luv2code.fizzbuzz.FizzBuzz;
 import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * This class holds all TDD testing over {@link FizzBuzz}
@@ -28,19 +27,94 @@ public class FizzBuzzTest {
      * > Call dictionary and check if everything goes well.
      * > Check if it is fail or not.
      */
-    @DisplayName("Test fizz buzz program")
+    @DisplayName("Test fizz buzz program divisible by three")
     @Test
-    public void testFizzBuzzProgram() {
+    public void testForDivisibleByThree() {
         // Assumptions
-        List<String> expectedDictionary = new ArrayList<>() {};
-        expectedDictionary.add("Fizz");
-        expectedDictionary.add("Buzz");
-        expectedDictionary.add("FizzBuzz");
+        String outputFizz = "Fizz";
 
         // CallsR
-        List<String> responseFizz = fizzBuzz.executeFizzBuzz();
+        String response = fizzBuzz.compute(6);
 
         // Assertion
-        Assertions.fail("fail!!");
+        Assertions.assertEquals(outputFizz, response, "Is divisible by three");
+    }
+
+    /**
+     * Test fizz buzz program
+     * > Init dictionary
+     * > Call dictionary and check if everything goes well.
+     * > Check if it is fail or not.
+     */
+    @DisplayName("Test fizz buzz program divisible by five 5")
+    @Test
+    public void testForDivisibleByFive() {
+        // Assumptions
+        String outputFizz = "Buzz";
+
+        // CallsR
+        String response = fizzBuzz.compute(5);
+
+        // Assertion
+        Assertions.assertEquals(outputFizz, response, "Is divisible by five");
+    }
+
+    /**
+     * Test fizz buzz program
+     * > Init dictionary
+     * > Call dictionary and check if everything goes well.
+     * > Check if it is fail or not.
+     */
+    @DisplayName("Test fizz buzz program divisible by five and three")
+    @Test
+    public void testForDivisibleByThreeAndFive() {
+        // Assumptions
+        String outputFizz = "FizzBuzz";
+
+        // CallsR
+        String response = fizzBuzz.compute(15);
+
+        // Assertion
+        Assertions.assertEquals(outputFizz, response, "Is divisible by five and three");
+    }
+
+    /**
+     * Test fizz buzz program
+     * > Init dictionary
+     * > Call dictionary and check if everything goes well.
+     * > Check if it is fail or not.
+     */
+    @DisplayName("Test fizz buzz program divisible by five and three")
+    @Test
+    public void testFizzBuzz() {
+        // Assumptions
+        String outputFizz = "FizzBuzz";
+
+        // CallsR
+        String response = fizzBuzz.compute(15);
+
+        // Assertion
+        Assertions.assertEquals(outputFizz, response, "Is divisible by five and three");
+    }
+
+    /**
+     * Parametric tests
+     * > Modified @Test instead @ParameterizedTest
+     * > Read from @CsvParametizer
+     */
+    @DisplayName("Test fizz buzz program divisible by five and three")
+    @ParameterizedTest(name = "value{0}, expected={1}")
+    @CsvSource({
+            "1, 1",
+            "2, 2",
+            "3, Fizz",
+            "4, 4",
+            "5, Buzz",
+            "6, Fizz",
+            "7, 7"
+    })
+    public void testFizzBuzz(String param, String value) {
+        // Assertion
+        Assertions.assertEquals(value, fizzBuzz.compute(Integer.valueOf(param)), "Is divisible CSV file");
     }
 }
