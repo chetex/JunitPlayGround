@@ -16,7 +16,7 @@ public class FizzBuzzIntStream implements IFizzBuzz {
     /**
      * Init dictionary map on every instance
      */
-    public FizzBuzz () {
+    public FizzBuzzIntStream () {
         try {
             dictionaryMap.put(3, "Fizz");
             dictionaryMap.put(5, "Buzz");
