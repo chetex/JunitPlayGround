@@ -1,8 +1,10 @@
 package com.luv2code.fizzbuzzdemo;
 
 import com.luv2code.fizzbuzz.FizzBuzz;
+import com.luv2code.fizzbuzz.IFizzBuzz;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
 /**
@@ -14,11 +16,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class FizzBuzzTest {
 
     // Init fizz buzz class global for all class
-    private static FizzBuzz fizzBuzz;
+    private static IFizzBuzz iFizzBuzz;
 
     @BeforeAll
     public static void initBeforeAll() {
-        fizzBuzz = new FizzBuzz();
+        iFizzBuzz = new FizzBuzz();
     }
 
     /**
@@ -34,7 +36,7 @@ public class FizzBuzzTest {
         String outputFizz = "Fizz";
 
         // CallsR
-        String response = fizzBuzz.compute(6);
+        String response = iFizzBuzz.computeSpecificNumber(3);
 
         // Assertion
         Assertions.assertEquals(outputFizz, response, "Is divisible by three");
@@ -53,7 +55,7 @@ public class FizzBuzzTest {
         String outputFizz = "Buzz";
 
         // CallsR
-        String response = fizzBuzz.compute(5);
+        String response = iFizzBuzz.computeSpecificNumber(5);
 
         // Assertion
         Assertions.assertEquals(outputFizz, response, "Is divisible by five");
@@ -72,7 +74,7 @@ public class FizzBuzzTest {
         String outputFizz = "FizzBuzz";
 
         // CallsR
-        String response = fizzBuzz.compute(15);
+        String response = iFizzBuzz.computeSpecificNumber(15);
 
         // Assertion
         Assertions.assertEquals(outputFizz, response, "Is divisible by five and three");
@@ -84,17 +86,28 @@ public class FizzBuzzTest {
      * > Call dictionary and check if everything goes well.
      * > Check if it is fail or not.
      */
-    @DisplayName("Test fizz buzz program divisible by five and three")
     @Test
-    public void testFizzBuzz() {
+    public void testFizzBuzzDivisionBy3And5() {
         // Assumptions
         String outputFizz = "FizzBuzz";
 
         // CallsR
-        String response = fizzBuzz.compute(15);
+        String response = iFizzBuzz.computeSpecificNumber(15);
 
         // Assertion
         Assertions.assertEquals(outputFizz, response, "Is divisible by five and three");
+    }
+
+    /**
+     * Parametric tests given a file source
+     * > Modified @Test instead @ParameterizedTest
+     * > Read from @CsvParametizer
+     */
+    @ParameterizedTest(name = "value{0}, expected={1}")
+    @CsvFileSource(resources = "/FizzBuzzCSV.csv")
+    public void testFizzBuzzGivenCSVFileParameterByParameter(int param, String value) {
+        // Assertion
+        Assertions.assertEquals(value, iFizzBuzz.computeSpecificNumber(Integer.parseInt(String.valueOf(param))), "Is divisible CSV file");
     }
 
     /**
@@ -102,7 +115,6 @@ public class FizzBuzzTest {
      * > Modified @Test instead @ParameterizedTest
      * > Read from @CsvParametizer
      */
-    @DisplayName("Test fizz buzz program divisible by five and three")
     @ParameterizedTest(name = "value{0}, expected={1}")
     @CsvSource({
             "1, 1",
@@ -113,8 +125,8 @@ public class FizzBuzzTest {
             "6, Fizz",
             "7, 7"
     })
-    public void testFizzBuzz(String param, String value) {
+    public void testFizzBuzzParameterByParemeter(int param, String value) {
         // Assertion
-        Assertions.assertEquals(value, fizzBuzz.compute(Integer.valueOf(param)), "Is divisible CSV file");
+        Assertions.assertEquals(value, iFizzBuzz.computeSpecificNumber(Integer.parseInt(String.valueOf(param))), "Is divisible CSV file");
     }
 }
