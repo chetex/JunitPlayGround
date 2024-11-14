@@ -7,14 +7,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = MvcTestingExampleApplication.class)
 public class ApplicationExampleTest {
@@ -42,6 +43,9 @@ public class ApplicationExampleTest {
     @Autowired
     private StudentGrades studentGrades;
 
+    @Autowired
+    private ApplicationContext appContext;
+
     @BeforeEach
     public void BeforeEach () {
         count = count + 1;
@@ -64,12 +68,37 @@ public class ApplicationExampleTest {
     }
 
     /**
-     * Assert equals and not equals
+     * Assert not equals and not equals
      */
     @Test
     public void testAddGradeResultsForStudentGradesNotEquals () {
         assertNotEquals(0, studentGrades.addGradeResultsForSingleClass(
                 collegeStudent.getStudentGrades().getMathGradeResults()
         ));
+    }
+
+    /**
+     * Assert not null
+     */
+    @Test
+    public void testAddGradeResultsForStudentGradesNotNull () {
+        assertNotNull(studentGrades.getMathGradeResults(), "Not null");
+    }
+
+    @Test
+    public void testCreateStudentBean () {
+        CollegeStudent collegeStudent1 = appContext.getBean(CollegeStudent.class);
+        collegeStudent.setEmailAddress("test@test.com");
+        assertNotNull(collegeStudent);
+        assertNotSame(collegeStudent1, collegeStudent);
+
+        assertAll("Testing all assert equals" ,
+                () -> assertEquals(5.699999999999999, studentGrades.addGradeResultsForSingleClass(
+                        collegeStudent.getStudentGrades().getMathGradeResults()
+                )),
+                () -> assertNotEquals(0, studentGrades.addGradeResultsForSingleClass(
+                        collegeStudent.getStudentGrades().getMathGradeResults()
+                ))
+        );
     }
 }
