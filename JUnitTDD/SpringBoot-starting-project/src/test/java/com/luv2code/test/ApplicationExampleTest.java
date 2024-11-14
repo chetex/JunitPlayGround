@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 @SpringBootTest(classes = MvcTestingExampleApplication.class)
 public class ApplicationExampleTest {
     // Global logger
@@ -50,8 +53,23 @@ public class ApplicationExampleTest {
         collegeStudent.setStudentGrades(studentGrades);
     }
 
+    /**
+     * Assert equals and not equals
+     */
     @Test
-    public void testInitial() {
+    public void testAddGradeResultsForStudentGrades () {
+        assertEquals(5.699999999999999, studentGrades.addGradeResultsForSingleClass(
+                collegeStudent.getStudentGrades().getMathGradeResults()
+        ));
+    }
 
+    /**
+     * Assert equals and not equals
+     */
+    @Test
+    public void testAddGradeResultsForStudentGradesNotEquals () {
+        assertNotEquals(0, studentGrades.addGradeResultsForSingleClass(
+                collegeStudent.getStudentGrades().getMathGradeResults()
+        ));
     }
 }
