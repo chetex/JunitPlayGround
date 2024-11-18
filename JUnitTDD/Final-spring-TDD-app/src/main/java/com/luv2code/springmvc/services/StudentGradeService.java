@@ -5,6 +5,8 @@ import com.luv2code.springmvc.repository.StudentDaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StudentGradeService {
 
@@ -36,5 +38,26 @@ public class StudentGradeService {
      */
     public CollegeStudentEntity findCollegeStudentByEmailAddress(String emailAddress) {
         return studentDaoRepository.findByEmailAddress(emailAddress);
+    }
+
+    /**
+     * Check if student is null
+     * @param i The id of the student
+     * @return true if student is null, false otherwise
+     */
+    public boolean isStudentNullCheck(int i) {
+        boolean exit = false;
+        try {
+            // Find college student by id
+            Optional<CollegeStudentEntity> collegeStudentOptional = studentDaoRepository.findById(i);
+
+            // If student is present, student is not null
+            if (collegeStudentOptional.isPresent()) {
+                exit = true;
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return exit;
     }
 }
