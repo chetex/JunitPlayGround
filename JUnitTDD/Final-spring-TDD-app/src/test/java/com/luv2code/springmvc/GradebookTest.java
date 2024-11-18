@@ -11,6 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -49,6 +54,44 @@ public class GradebookTest {
 
         // Given another student with id = 2 and assert student is NULL (student is not created yet)
         assertFalse(studentGradeService.isStudentNullCheck(0));
+    }
+
+    /**
+     * This test delete student service test
+     */
+    @Test
+    public void deleteStudentServiceTest() {
+        // Call student service and create new student
+        studentGradeService.createStudent("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
+
+        // Find college student by email address
+        CollegeStudentEntity collegeStudentEntity = studentGradeService.findCollegeStudentByEmailAddress("ignacio.garcia@gmail.com");
+
+        // Assert created student is the same as the one found by email address
+        assert collegeStudentEntity.getEmailAddress().equals("ignacio.garcia@gmail.com");
+
+        // Delete student
+        studentGradeService.deleteStudent(collegeStudentEntity.getId());
+
+        // Assert student is null
+        assertFalse(studentGradeService.isStudentNullCheck(collegeStudentEntity.getId()));
+    }
+
+    /**
+     * Get grade book from service
+     */
+    @Test
+    public void getGradeBookServiceTest() {
+        // Get grade book from service in an Iterable CollegeStudentEntity and convert to list
+        Iterable<CollegeStudentEntity> collegeStudentEntities = studentGradeService.getGradeBook();
+
+        // Convert collegeStudentEntities to list
+        List<CollegeStudentEntity> collegeStudentList = StreamSupport
+                .stream(collegeStudentEntities.spliterator(), false)
+                .toList();
+
+        // Assert list is not empty
+        assert !collegeStudentList.isEmpty();
     }
 
     @AfterEach

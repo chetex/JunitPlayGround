@@ -60,4 +60,38 @@ public class StudentGradeService {
         }
         return exit;
     }
+
+    /**
+     * Delete student given the id
+     * @param id The id of the student
+     */
+    public void deleteStudent(int id) {
+        try {
+            // Find college student by id
+            Optional<CollegeStudentEntity> collegeStudentOptional = studentDaoRepository.findById(id);
+
+            // If student is present, student is not null
+            if (collegeStudentOptional.isPresent()) {
+                // Delete student
+                studentDaoRepository.delete(collegeStudentOptional.get());
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+    }
+
+    /**
+     * Get grade book
+     * @return Iterable<CollegeStudentEntity> The grade book
+     */
+    public Iterable<CollegeStudentEntity> getGradeBook() {
+        Iterable<CollegeStudentEntity> collegeStudentEntities = null;
+        try {
+            // Get grade book from repository
+            collegeStudentEntities = studentDaoRepository.findAll();
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return collegeStudentEntities;
+    }
 }
