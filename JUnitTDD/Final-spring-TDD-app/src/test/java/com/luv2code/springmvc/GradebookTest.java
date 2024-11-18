@@ -1,5 +1,6 @@
 package com.luv2code.springmvc;
 
+import com.luv2code.springmvc.models.students.CollegeStudentEntity;
 import com.luv2code.springmvc.services.StudentGradeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class GradebookTest {
         studentGradeService.createStudent("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
 
         // Find college student by email address
-        // CollegeStudent collegeStudent = studentDao.findCollegeStudentByEmailAddress("ignacio.garcia@gmail.com");
+        CollegeStudentEntity collegeStudentEntity = studentGradeService.findCollegeStudentByEmailAddress("ignacio.garcia@gmail.com");
 
         // Assert created student is the same as the one found by email address
-        // assert collegeStudent.getEmailAddress().equals("ignacio.garcia@gmail.com");
+        assert collegeStudentEntity.getEmailAddress().equals("ignacio.garcia@gmail.com");
     }
 }

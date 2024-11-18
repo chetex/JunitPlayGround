@@ -8,4 +8,5 @@ import java.util.Collection;
 
 @Repository
 public interface StudentDaoRepository extends CrudRepository<CollegeStudentEntity, Integer> {
+    CollegeStudentEntity findByEmailAddress(String emailAddress);
 }

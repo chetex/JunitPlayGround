@@ -13,9 +13,9 @@ public class StudentGradeService {
 
     /**
      * Create student given the firstname, lastname and email address
-     * @param name
-     * @param surname
-     * @param mail
+     * @param name The first name of the student
+     * @param surname The last name of the student
+     * @param mail The email address of the student
      */
     public void createStudent(String name, String surname, String mail) {
         try {
@@ -27,5 +27,14 @@ public class StudentGradeService {
         } catch (Exception error) {
             error.printStackTrace();
         }
+    }
+
+    /**
+     * Find college student by email address
+     * @param emailAddress The email address of the student
+     * @return The college student
+     */
+    public CollegeStudentEntity findCollegeStudentByEmailAddress(String emailAddress) {
+        return studentDaoRepository.findByEmailAddress(emailAddress);
     }
 }
