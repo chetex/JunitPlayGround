@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestPropertySource(locations = "classpath:application.properties")
 @SpringBootTest
@@ -80,6 +80,7 @@ public class GradebookTest {
     /**
      * Get grade book from service
      */
+    @Sql(scripts = "classpath:InsertData.sql")
     @Test
     public void getGradeBookServiceTest() {
         // Get grade book from service in an Iterable CollegeStudentEntity and convert to list
@@ -91,7 +92,7 @@ public class GradebookTest {
                 .toList();
 
         // Assert list is not empty
-        assert !collegeStudentList.isEmpty();
+        assertEquals(collegeStudentList.size(), 11);
     }
 
     @AfterEach
