@@ -1,0 +1,10 @@
+insert into student values (2, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (3, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (4, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (5, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (6, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (7, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (8, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (9, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (10, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
+insert into student values (11, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com');
