@@ -2,7 +2,6 @@ package com.luv2code.springmvc;
 
 import com.luv2code.springmvc.models.students.CollegeStudentEntity;
 import com.luv2code.springmvc.services.StudentGradeService;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestPropertySource(locations = "classpath:application.properties")
 @SpringBootTest
-public class GradebookTest {
+public class GradebookDataJPATest {
 
     @Autowired
     private StudentGradeService studentGradeService;
@@ -85,7 +82,7 @@ public class GradebookTest {
     @Test
     public void getGradeBookServiceTest() {
         // Get grade book from service in an Iterable CollegeStudentEntity and convert to list
-        Iterable<CollegeStudentEntity> collegeStudentEntities = studentGradeService.getGradeBook();
+        Iterable<CollegeStudentEntity> collegeStudentEntities = studentGradeService.getCollegeStudentsIterable();
 
         // Convert collegeStudentEntities to list
         List<CollegeStudentEntity> collegeStudentList = StreamSupport

@@ -84,7 +84,7 @@ public class StudentGradeService {
      * Get grade book
      * @return Iterable<CollegeStudentEntity> The grade book
      */
-    public Iterable<CollegeStudentEntity> getGradeBook() {
+    public Iterable<CollegeStudentEntity> getCollegeStudentsIterable() {
         Iterable<CollegeStudentEntity> collegeStudentEntities = null;
         try {
             // Get grade book from repository
