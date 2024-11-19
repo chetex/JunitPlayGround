@@ -7,6 +7,7 @@ import org.mockito.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.context.*;
+import org.springframework.http.*;
 import org.springframework.jdbc.core.*;
 import org.springframework.mock.web.*;
 import org.springframework.test.web.*;
@@ -67,6 +68,24 @@ public class GradebookControllerTest {
 
         ModelAndView modelAndView = mvcResult.getModelAndView();
         ModelAndViewAssert.assertViewName(modelAndView, "index");
+    }
+
+    @Test
+    public void createPostStudentTest() throws Exception {
+        // Call mockMvc perform post request with content type application/json
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/student")
+                .contentType(MediaType.APPLICATION_JSON)
+                        .param("firstName", mockHttpServletRequest.getParameter("firstName"))
+                        .param("lastName", mockHttpServletRequest.getParameter("lastName"))
+                        .param("emailAddress", mockHttpServletRequest.getParameter("emailAddress")))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView modelAndView = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(modelAndView, "index");
+
+        // Assert that student is created
+        verify(studentGradeService, times(1)).createStudent("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
     }
 
     /**
