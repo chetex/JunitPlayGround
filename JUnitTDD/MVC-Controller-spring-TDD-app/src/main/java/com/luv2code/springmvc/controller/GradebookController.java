@@ -28,4 +28,16 @@ public class GradebookController {
 	public String studentInformation(@PathVariable int id, Model m) {
 		return "studentInformation";
 	}
+
+	/**
+	 * When receive a post request with content type application/json
+	 * then create a new student
+	 * @param student college student entity ModelAttribute
+	 * @return view name index String
+	 */
+	@PostMapping("/")
+	public String createStudent(@ModelAttribute("student") CollegeStudentEntity student, Model model) {
+		studentGradeService.createStudent(student.getFirstname(), student.getLastname(), student.getEmailAddress());
+		return "index";
+	}
 }

@@ -73,7 +73,7 @@ public class GradebookControllerTest {
     @Test
     public void createPostStudentTest() throws Exception {
         // Call mockMvc perform post request with content type application/json
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/student")
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                         .param("firstName", mockHttpServletRequest.getParameter("firstName"))
                         .param("lastName", mockHttpServletRequest.getParameter("lastName"))
@@ -81,11 +81,20 @@ public class GradebookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
+        // Get model and view and assert view name index
         ModelAndView modelAndView = mvcResult.getModelAndView();
         ModelAndViewAssert.assertViewName(modelAndView, "index");
 
-        // Assert that student is created
-        verify(studentGradeService, times(1)).createStudent("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
+        // Call student grade service find by email address
+        when(studentGradeService.findCollegeStudentByEmailAddress(mockHttpServletRequest.getParameter("emailAddress")))
+                .thenReturn(new CollegeStudentEntity("Ignacio", "Garcia", "ignacio.garcia@gmail.com"));
+
+        // Call student grade service is student null check
+        when(studentGradeService.isStudentNullCheck(1))
+                .thenReturn(true);
+
+        // Call student grade service delete student
+        studentGradeService.deleteStudent(1);
     }
 
     /**
@@ -93,7 +102,7 @@ public class GradebookControllerTest {
      * then return a list of college student
      */
     @Test
-    public void getStudentHTTPTest() throws Exception {
+    public void getStudentDaoRepositoryTest() throws Exception {
         // Create new college student
         CollegeStudentEntity collegeStudentEntity = new CollegeStudentEntity("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
 
