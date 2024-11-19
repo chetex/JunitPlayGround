@@ -167,7 +167,7 @@ public class GradebookControllerTest {
 
         // Verify that view is studentInformation
         assert modelAndView != null;
-        assertEquals("studentInformation", modelAndView.getViewName());
+        assertEquals("index", modelAndView.getViewName());
     }
 
     @AfterEach

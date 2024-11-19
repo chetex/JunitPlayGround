@@ -45,4 +45,20 @@ public class GradebookController {
 
 		return "index";
 	}
+
+	/**
+	 * Create a new get mapping for the delete student
+	 * @param id The id of the student
+	 * @return view name index String
+	 */
+	@GetMapping("/deleteStudent/{id}")
+	public String deleteStudent(@PathVariable int id, Model model) {
+		studentGradeService.deleteStudent(id);
+
+		// Also get grade book into iterable and then add attribute with this iterable
+		Iterable<CollegeStudentEntity> collegeStudentEntities = studentGradeService.getCollegeStudentsIterable();
+		model.addAttribute("students", collegeStudentEntities);
+
+		return "index";
+	}
 }
