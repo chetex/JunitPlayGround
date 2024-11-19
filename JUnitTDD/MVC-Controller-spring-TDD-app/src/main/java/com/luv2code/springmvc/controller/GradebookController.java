@@ -38,6 +38,11 @@ public class GradebookController {
 	@PostMapping("/")
 	public String createStudent(@ModelAttribute("student") CollegeStudentEntity student, Model model) {
 		studentGradeService.createStudent(student.getFirstname(), student.getLastname(), student.getEmailAddress());
+
+		// Also get grade book into iterable and then add attribute with this iterable
+		Iterable<CollegeStudentEntity> collegeStudentEntities = studentGradeService.getCollegeStudentsIterable();
+		model.addAttribute("students", collegeStudentEntities);
+
 		return "index";
 	}
 }

@@ -13,11 +13,12 @@ import org.springframework.mock.web.*;
 import org.springframework.test.web.*;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.*;
+import org.springframework.test.web.servlet.result.*;
 import org.springframework.web.servlet.*;
+import org.thymeleaf.spring5.expression.*;
 
 import java.util.*;
 
-import static java.lang.reflect.Array.get;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +38,7 @@ public class GradebookControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private StudentGradeService studentGradeService;
+    private StudentGradeService studentGradeServiceMock;
 
     @BeforeAll
     public static void setUpAll() {
@@ -72,6 +73,8 @@ public class GradebookControllerTest {
 
     @Test
     public void createPostStudentTest() throws Exception {
+        checkCurrentStudentIsCreasted();
+
         // Call mockMvc perform post request with content type application/json
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -86,15 +89,32 @@ public class GradebookControllerTest {
         ModelAndViewAssert.assertViewName(modelAndView, "index");
 
         // Call student grade service find by email address
-        when(studentGradeService.findCollegeStudentByEmailAddress(mockHttpServletRequest.getParameter("emailAddress")))
+        when(studentGradeServiceMock.findCollegeStudentByEmailAddress(mockHttpServletRequest.getParameter("emailAddress")))
                 .thenReturn(new CollegeStudentEntity("Ignacio", "Garcia", "ignacio.garcia@gmail.com"));
 
         // Call student grade service is student null check
-        when(studentGradeService.isStudentNullCheck(1))
+        when(studentGradeServiceMock.isStudentNullCheck(1))
                 .thenReturn(true);
 
         // Call student grade service delete student
-        studentGradeService.deleteStudent(1);
+        studentGradeServiceMock.deleteStudent(1);
+    }
+
+    /**
+     * This method check if current student is created correctly
+     */
+    private void checkCurrentStudentIsCreasted() {
+        // Create college student entity
+        CollegeStudentEntity collegeStudentEntity = new CollegeStudentEntity("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
+
+        // Add college student entity to a list
+        List<CollegeStudentEntity> collegeStudentEntities = Arrays.asList(collegeStudentEntity);
+
+        // When student get grade book then return previous list
+        when(studentGradeServiceMock.getCollegeStudentsIterable()).thenReturn(collegeStudentEntities);
+
+        // Assert iterable equals previous list with student service get grade book
+        assertIterableEquals(collegeStudentEntities, studentGradeServiceMock.getCollegeStudentsIterable());
     }
 
     /**
@@ -113,10 +133,41 @@ public class GradebookControllerTest {
         List<CollegeStudentEntity> collegeStudentEntities = Arrays.asList(collegeStudentEntity, collegeStudentEntity2);
 
         // When student get grade book then return previous list
-        when(studentGradeService.getCollegeStudentsIterable()).thenReturn(collegeStudentEntities);
+        when(studentGradeServiceMock.getCollegeStudentsIterable()).thenReturn(collegeStudentEntities);
 
         // Assert iterable equals previous list with student service get grade book
-        assertIterableEquals(collegeStudentEntities, studentGradeService.getCollegeStudentsIterable());
+        assertIterableEquals(collegeStudentEntities, studentGradeServiceMock.getCollegeStudentsIterable());
+    }
+
+    /**
+     * Create test for delete student method
+     */
+    @Test
+    public void deleteStudentTest() {
+        // Call student grade service to delete student
+        studentGradeServiceMock.deleteStudent(1);
+
+        // Verify that student is deleted
+        verify(studentGradeServiceMock, times(1)).deleteStudent(1);
+    }
+
+    /**
+     * Delete student by http delete request
+     */
+    @Test
+    public void deleteStudentByHttpDeleteRequestTest() throws Exception {
+        // Mockmvc perform http get request to delete studen url and get result
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/deleteStudent/{1}", 1))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        // Get model and view from mvc result
+        ModelAndView modelAndView = mvcResult.getModelAndView();
+
+        // Verify that view is studentInformation
+        assert modelAndView != null;
+        assertEquals("studentInformation", modelAndView.getViewName());
     }
 
     @AfterEach
