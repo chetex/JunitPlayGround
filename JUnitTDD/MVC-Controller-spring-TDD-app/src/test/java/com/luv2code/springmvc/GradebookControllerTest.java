@@ -15,14 +15,12 @@ import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.*;
 import org.springframework.test.web.servlet.result.*;
 import org.springframework.web.servlet.*;
-import org.thymeleaf.spring5.expression.*;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -158,7 +156,7 @@ public class GradebookControllerTest {
     public void deleteStudentByHttpDeleteRequestTest() throws Exception {
         // Mockmvc perform http get request to delete studen url and get result
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                        .get("/deleteStudent/{1}", 1))
+                        .get("/delete/student/{1}", 1))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 

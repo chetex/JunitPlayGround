@@ -1,11 +1,11 @@
 package com.luv2code.springmvc.controller;
 
-import com.luv2code.springmvc.components.Gradebook;
+import com.luv2code.springmvc.components.*;
 import com.luv2code.springmvc.models.students.*;
 import com.luv2code.springmvc.services.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -51,8 +51,9 @@ public class GradebookController {
 	 * @param id The id of the student
 	 * @return view name index String
 	 */
-	@GetMapping("/deleteStudent/{id}")
+	@GetMapping("/delete/student/{id}")
 	public String deleteStudent(@PathVariable int id, Model model) {
+		// Delete student
 		studentGradeService.deleteStudent(id);
 
 		// Also get grade book into iterable and then add attribute with this iterable
