@@ -1,17 +1,21 @@
 package com.luv2code.springmvc.services;
 
+import com.luv2code.springmvc.models.grades.*;
 import com.luv2code.springmvc.models.students.CollegeStudentEntity;
-import com.luv2code.springmvc.repository.StudentDaoRepository;
+import com.luv2code.springmvc.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class StudentGradeService {
 
     @Autowired
     private StudentDaoRepository studentDaoRepository;
+
+    @Autowired
+    private GradesDaoRepository gradesDaoRepository;
 
     /**
      * Create student given the firstname, lastname and email address
@@ -93,5 +97,36 @@ public class StudentGradeService {
             error.printStackTrace();
         }
         return collegeStudentEntities;
+    }
+
+    /**
+     * Create new history grade book
+     */
+    public void createNewHistoryGradeBook() {
+        try {
+            // Create new history grade book
+            HistoryGrade historyGrade = new HistoryGrade(0);
+
+            // Save history grade book
+            gradesDaoRepository.save(historyGrade);
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+    }
+
+    /**
+     * Get history grade book by student id
+     * @param id The id of the student
+     * @return List<HistoryGrade> The history grade book list
+     */
+    public List<HistoryGrade> getHistoryGradeBookByStudentId(int id) {
+        List<HistoryGrade> historyGradeList = null;
+        try {
+            // Get history grade book by student id
+            historyGradeList = gradesDaoRepository.findAllByStudentId(id);
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return historyGradeList;
     }
 }
