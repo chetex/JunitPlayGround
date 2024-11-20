@@ -1,6 +1,6 @@
 package com.luv2code.springmvc.components;
 
-import com.luv2code.springmvc.models.grades.Grade;
+import com.luv2code.springmvc.entities.Grade;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

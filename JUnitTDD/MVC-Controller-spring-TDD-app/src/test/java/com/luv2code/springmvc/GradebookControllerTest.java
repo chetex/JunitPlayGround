@@ -1,6 +1,6 @@
 package com.luv2code.springmvc;
 
-import com.luv2code.springmvc.models.students.*;
+import com.luv2code.springmvc.entities.*;
 import com.luv2code.springmvc.services.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;

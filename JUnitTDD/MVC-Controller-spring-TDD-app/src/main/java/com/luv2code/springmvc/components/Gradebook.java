@@ -1,6 +1,6 @@
 package com.luv2code.springmvc.components;
 
-import com.luv2code.springmvc.models.students.GradebookCollegeStudent;
+import com.luv2code.springmvc.entities.GradebookCollegeStudent;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

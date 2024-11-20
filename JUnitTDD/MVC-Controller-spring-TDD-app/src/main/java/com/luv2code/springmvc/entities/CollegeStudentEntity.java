@@ -1,4 +1,4 @@
-package com.luv2code.springmvc.models.students;
+package com.luv2code.springmvc.entities;
 
 import javax.persistence.*;
 

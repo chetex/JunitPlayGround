@@ -1,4 +1,4 @@
-package com.luv2code.springmvc.models.grades;
+package com.luv2code.springmvc.entities;
 
 public interface Grade {
     double getGrade();

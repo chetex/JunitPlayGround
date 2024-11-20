@@ -1,6 +1,6 @@
 package com.luv2code.springmvc.repository;
 
-import com.luv2code.springmvc.models.grades.*;
+import com.luv2code.springmvc.entities.*;
 import org.springframework.data.repository.*;
 import org.springframework.stereotype.Repository;
 

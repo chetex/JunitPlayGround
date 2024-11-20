@@ -1,15 +1,20 @@
 package com.luv2code.springmvc.services;
 
-import com.luv2code.springmvc.models.grades.*;
-import com.luv2code.springmvc.models.students.CollegeStudentEntity;
+import com.luv2code.springmvc.entities.*;
 import com.luv2code.springmvc.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.querydsl.jpa.impl.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class StudentGradeService {
+
+    @Autowired
+    private JPAQueryFactory queryFactory;
 
     @Autowired
     private StudentDaoRepository studentDaoRepository;
@@ -41,7 +46,11 @@ public class StudentGradeService {
      * @return The college student
      */
     public CollegeStudentEntity findCollegeStudentByEmailAddress(String emailAddress) {
-        return studentDaoRepository.findByEmailAddress(emailAddress);
+        return (CollegeStudentEntity) queryFactory
+                .from(QCollegeStudentEntity.collegeStudentEntity)
+                .where(QCollegeStudentEntity.collegeStudentEntity.emailAddress.eq(emailAddress))
+                .orderBy(QCollegeStudentEntity.collegeStudentEntity.id.asc())
+                .fetchOne();
     }
 
     /**
@@ -105,7 +114,9 @@ public class StudentGradeService {
     public void createNewHistoryGradeBook() {
         try {
             // Create new history grade book
-            HistoryGrade historyGrade = new HistoryGrade(0);
+            HistoryGrade historyGrade = new HistoryGrade();
+            historyGrade.setStudentId(1);
+            historyGrade.setGrade(0);
 
             // Save history grade book
             gradesDaoRepository.save(historyGrade);

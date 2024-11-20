@@ -1,10 +1,10 @@
 package com.luv2code.springmvc;
 
-import com.luv2code.springmvc.models.grades.Grade;
-import com.luv2code.springmvc.models.grades.HistoryGrade;
-import com.luv2code.springmvc.models.grades.MathGrade;
-import com.luv2code.springmvc.models.grades.ScienceGrade;
-import com.luv2code.springmvc.models.students.CollegeStudentEntity;
+import com.luv2code.springmvc.entities.Grade;
+import com.luv2code.springmvc.entities.HistoryGrade;
+import com.luv2code.springmvc.entities.MathGrade;
+import com.luv2code.springmvc.entities.ScienceGrade;
+import com.luv2code.springmvc.entities.CollegeStudentEntity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

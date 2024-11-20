@@ -1,7 +1,7 @@
 package com.luv2code.springmvc.controller;
 
 import com.luv2code.springmvc.components.*;
-import com.luv2code.springmvc.models.students.*;
+import com.luv2code.springmvc.entities.*;
 import com.luv2code.springmvc.services.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;

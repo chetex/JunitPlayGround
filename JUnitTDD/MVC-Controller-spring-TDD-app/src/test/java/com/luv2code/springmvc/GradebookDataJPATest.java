@@ -1,14 +1,12 @@
 package com.luv2code.springmvc;
 
-import com.luv2code.springmvc.models.grades.*;
-import com.luv2code.springmvc.models.students.CollegeStudentEntity;
+import com.luv2code.springmvc.entities.*;
 import com.luv2code.springmvc.services.StudentGradeService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,14 +16,13 @@ import java.util.stream.StreamSupport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @TestPropertySource(locations = "classpath:application.properties")
 @SpringBootTest
 public class GradebookDataJPATest {
 
-    @MockBean
+    @Autowired
     private StudentGradeService studentGradeServiceMock;
 
     @Autowired
