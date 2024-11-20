@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
+import javax.persistence.*;
 import java.util.*;
 
 @Service
@@ -15,6 +16,9 @@ public class StudentGradeService {
 
     @Autowired
     private JPAQueryFactory queryFactory;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     private StudentDaoRepository studentDaoRepository;
@@ -34,10 +38,45 @@ public class StudentGradeService {
             CollegeStudentEntity collegeStudent = new CollegeStudentEntity(name, surname, mail);
 
             // Create new student DAO and save college student
-            studentDaoRepository.save(collegeStudent);
+            entityManager.persist(collegeStudent);
         } catch (Exception error) {
             error.printStackTrace();
         }
+    }
+
+    /**
+     * Update student given the id and the new values
+     * @param id The id of the student
+     */
+    public Boolean updateStudent(int id) {
+        boolean exit = false;
+        try {
+            long filasActualizadas = new JPAUpdateClause(entityManager, QCollegeStudentEntity.collegeStudentEntity)
+                    .where(QCollegeStudentEntity.collegeStudentEntity.id.eq(id))
+                    .set(QCollegeStudentEntity.collegeStudentEntity.firstname, "Ignacio 2")
+                    .execute();
+
+            exit = filasActualizadas > 0;
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return exit;
+    }
+
+    /**
+     * Delete student given the id
+     * @param id The id of the student
+     */
+    public Boolean deleteStudentWithJPA(int id) {
+        long filasEliminadas = 0L;
+        try {
+            filasEliminadas = new JPADeleteClause(entityManager, QCollegeStudentEntity.collegeStudentEntity)
+                    .where(QCollegeStudentEntity.collegeStudentEntity.id.eq(id))
+                    .execute();
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return filasEliminadas > 0;
     }
 
     /**
@@ -49,6 +88,19 @@ public class StudentGradeService {
         return (CollegeStudentEntity) queryFactory
                 .from(QCollegeStudentEntity.collegeStudentEntity)
                 .where(QCollegeStudentEntity.collegeStudentEntity.emailAddress.eq(emailAddress))
+                .orderBy(QCollegeStudentEntity.collegeStudentEntity.id.asc())
+                .fetchOne();
+    }
+
+    /**
+     * Find college student by id
+     * @param id The id of the student
+     * @return The college student
+     */
+    public CollegeStudentEntity findCollegeStudentByID(int id) {
+        return (CollegeStudentEntity) queryFactory
+                .from(QCollegeStudentEntity.collegeStudentEntity)
+                .where(QCollegeStudentEntity.collegeStudentEntity.id.eq(id))
                 .orderBy(QCollegeStudentEntity.collegeStudentEntity.id.asc())
                 .fetchOne();
     }
@@ -141,3 +193,11 @@ public class StudentGradeService {
         return historyGradeList;
     }
 }
+
+// Update student using JPAUpdateClause and entity manager
+//            entityManager.merge(entityManager.createQuery("update CollegeStudentEntity set firstname = :firstname, lastname = :lastname, emailAddress = :emailAddress where id = :id")
+//                    .setParameter("firstname", "Ignacio 2")
+//                    .setParameter("lastname", "Garcia 2")
+//                    .setParameter("emailAddress", "ignacio.garcia@gmail.com")
+//                    .setParameter("id", id)
+//                    .executeUpdate());

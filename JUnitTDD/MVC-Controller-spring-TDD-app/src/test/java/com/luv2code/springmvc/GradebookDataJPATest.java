@@ -47,6 +47,42 @@ public class GradebookDataJPATest {
     }
 
     @Test
+    public void updateStudentServiceTest() {
+        // Call student service and create new student
+        studentGradeServiceMock.createStudent("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
+
+        // Then update previous student
+        studentGradeServiceMock.updateStudent(1);
+
+        // Find college student by email address
+        CollegeStudentEntity collegeStudentEntity = studentGradeServiceMock.findCollegeStudentByID(1);
+
+        // Assert updated student is the same as the one found by email address
+        assert collegeStudentEntity.getFirstname().equals("Ignacio 2");
+    }
+
+    @Test
+    public void updateAndDeleteStudentServiceTest() {
+        // Call student service and create new student
+        studentGradeServiceMock.createStudent("Ignacio", "Garcia", "ignacio.garcia@gmail.com");
+
+        // Then update previous student
+        studentGradeServiceMock.updateStudent(1);
+
+        // Find college student by email address
+        CollegeStudentEntity collegeStudentEntity = studentGradeServiceMock.findCollegeStudentByID(1);
+
+        // Assert updated student is the same as the one found by email address
+        assert collegeStudentEntity.getFirstname().equals("Ignacio 2");
+
+        // Then delete previous student
+        Boolean exit = studentGradeServiceMock.deleteStudentWithJPA(1);
+
+        // Assert student is deleted
+        assert exit;
+    }
+
+    @Test
     public void isStudentNullCheckTest() {
         // Call student grade service method check if student is null sending id = 1 and assert student is not null
         assertTrue(studentGradeServiceMock.isStudentNullCheck(1));
