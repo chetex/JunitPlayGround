@@ -5,7 +5,7 @@ import com.luv2code.springmvc.services.StudentGradeService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
@@ -28,10 +28,13 @@ public class GradebookDataJPATest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Value("${spring.datasource.sql}")
+    private String sql;
+
     @BeforeEach
     public void setUp() {
         // Delete all data from database
-        jdbcTemplate.execute("insert into student values (1, 'Ignacio', 'Garcia', 'ignacio.garcia@gmail.com')");
+        jdbcTemplate.execute(sql);
     }
 
     @Test
